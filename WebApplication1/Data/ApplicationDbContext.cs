@@ -4,12 +4,12 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-        public DbSet<WebApplication1.Models.Note> Note { get; set; } = default!;
+        public DbSet<Note> Note { get; set; } = default!;
     }
 }
