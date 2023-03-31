@@ -1,7 +1,9 @@
 ﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplication1.Models;
+
 
 namespace WebApplication1.Controllers
 {
@@ -29,7 +31,7 @@ namespace WebApplication1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult ValidGoogleLogin()
+        public async Task<IActionResult> ValidGoogleLoginAsync()
         {
             string? formCredential = Request.Form["credential"]; //回傳憑證
             string? formToken = Request.Form["g_csrf_token"]; //回傳令牌
@@ -49,6 +51,15 @@ namespace WebApplication1.Controllers
                 ViewData["Msg"] += "Email:" + payload.Email + "<br>";
                 ViewData["Msg"] += "Name:" + payload.Name + "<br>";
                 ViewData["Msg"] += "Picture:" + payload.Picture;
+                var user = new IdentityUser { UserName = payload.Email, Email = payload.Email };
+                if (user != null)
+                {
+                    //UserManager.
+
+                    //await userManager.UpdateAsync(user);
+                    //await SignInAsync(user, isPersistent: false);
+                }
+
             }
 
             return View();
