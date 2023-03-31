@@ -133,8 +133,19 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                     {
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email)
                     };
+                    var user = CreateUser();
+                    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                    await _userStore.SetUserNameAsync(user, email, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
+                    var r = await _userManager.CreateAsync(user);
+                    Console.WriteLine(r);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    if (r.Succeeded)
+                    {
+                        r = await _userManager.AddLoginAsync(user, info);
+                    }
                 }
-                return Page();
+                return RedirectToPage("./");
             }
         }
 
