@@ -36,11 +36,12 @@ namespace WebApplication1.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // POST: Notes/ShowSearchForm
+        // POST: Notes/ShowSearchResults
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
-            /// return View("Index", await _context.Note.Where(j=>j.Title.Contains(SearchPhrase)| j.Content.Contains(SearchPhrase)).ToListAsync());
-            return View(await _context.Note.ToListAsync());
+            string name = User.Identity != null ? User.Identity.Name : "";
+            return View("Index", await _context.Note.Where(j=> j.User.Equals(name) & (j.Title.Contains(SearchPhrase)| j.Content.Contains(SearchPhrase))).ToListAsync());
+            //return View("ShowSearchResults", await _context.Note.ToListAsync());
         }
 
         // GET: Notes/Details/5
