@@ -17,7 +17,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using WebApplication1.Migrations.ApplicationDb;
 
 namespace WebApplication1.Areas.Identity.Pages.Account
 {
@@ -117,7 +119,24 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                var email = await _userManager.GetUserNameAsync(user);
+                Console.WriteLine(email);
+                var extuser = await _userManager.Users.FirstOrDefaultAsync(m => m.UserName == email);
+                Console.WriteLine(extuser.PasswordHash);
+                if(extuser.PasswordHash == null) {
+                    user = await _userManager.FindByNameAsync(email);
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    //code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+                    var r = await _userManager.ResetPasswordAsync(user, code, Input.Password);
+                    Console.WriteLine(code+"\n"+r);
+                    if (r.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
 
+                }
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
