@@ -17,7 +17,7 @@ namespace WebApplication1.Data
         public DbSet<Note> Note { get; set; } = default!;
         public DbSet<IdentityUser> User { get; set; } = default!;
         //public DbSet<CusUser> ExternalUser { get; set; } = default!;
-        public DbSet<IdentityUserLogin<string>> UserLogin{ get; set; } = default!;
+        public DbSet<IdentityUserLogin<string>> UserLogin { get; set; } = default!;
         public DbSet<IdentityRole> Role { get; set; } = default!;
 
         public DbSet<IdentityUserClaim<string>> UserClaim { get; set; } = default!;

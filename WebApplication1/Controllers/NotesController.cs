@@ -12,7 +12,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class NotesController : Controller
+    public class NotesController : Controller, INotesController
     {
         private readonly ApplicationDbContext _context;
 
@@ -20,18 +20,36 @@ namespace WebApplication1.Controllers
         {
             _context = context;
         }
+
+        public async Task<List<Note>> GetNotebyName(string name)
+        {
+            var notes = await _context.Note.Where(
+                j => j.User.Equals(name)).ToListAsync();
+            return notes;
+
+        }
+        public async Task<List<Note>> GetSearchResult(string name, string SearchPhrase)
+        {
+            var notes = await _context.Note.Where(
+                j => j.User.Equals(name)
+                 & (j.Title.Contains(SearchPhrase) | j.Content.Contains(SearchPhrase))
+                 ).ToListAsync();
+            return notes;
+
+        }
         [Authorize]
+
         // GET: Notes
         public async Task<IActionResult> Index()
-            
+
         {
-              string name = User.Identity != null ? User.Identity.Name : "";
-              return View("Index", await _context.Note.Where(j => j.User.Equals(name) | j.Content.Equals("")).ToListAsync());
+            string name = User.Identity != null ? User.Identity.Name : "";
+            return View("Index", await GetNotebyName(name));
         }
         // GET: Notes/ShowSearchForm
-        public async Task<IActionResult> ShowSearchForm()
+        public IActionResult ShowSearchForm()
         {
-            return View(await _context.Note.ToListAsync());
+            return View();
         }
         [Authorize]
         [HttpPost]
@@ -40,7 +58,7 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
             string name = User.Identity != null ? User.Identity.Name : "";
-            return View("Index", await _context.Note.Where(j=> j.User.Equals(name) & (j.Title.Contains(SearchPhrase)| j.Content.Contains(SearchPhrase))).ToListAsync());
+            return View("Index", await GetSearchResult(name, SearchPhrase));
             //return View("ShowSearchResults", await _context.Note.ToListAsync());
         }
 
@@ -79,7 +97,7 @@ namespace WebApplication1.Controllers
             Note note = new Note(Id, name, Title, Content);
             if (ModelState.IsValid)
             {
-                
+
                 _context.Add(note);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -108,7 +126,7 @@ namespace WebApplication1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,User,Title,Cotent")] Note note)  
+        public async Task<IActionResult> Edit(int id, [Bind("Id,User,Title,Cotent")] Note note)
         {
             if (id != note.Id)
             {
@@ -170,14 +188,14 @@ namespace WebApplication1.Controllers
             {
                 _context.Note.Remove(note);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool NoteExists(int id)
         {
-          return (_context.Note?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Note?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

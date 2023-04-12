@@ -11312,19 +11312,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\litin\\.nuget\\packages\\": {}
+    "C:\\Users\\DESKTOP-K5835J0\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\litin\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+      "projectUniqueName": "C:\\Users\\DESKTOP-K5835J0\\OneDrive - UC San Diego\\Users\\litin\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "C:\\Users\\litin\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
-      "packagesPath": "C:\\Users\\litin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\litin\\source\\repos\\WebApplication1\\WebApplication1\\obj\\",
+      "projectPath": "C:\\Users\\DESKTOP-K5835J0\\OneDrive - UC San Diego\\Users\\litin\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+      "packagesPath": "C:\\Users\\DESKTOP-K5835J0\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\DESKTOP-K5835J0\\OneDrive - UC San Diego\\Users\\litin\\source\\repos\\WebApplication1\\WebApplication1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\litin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DESKTOP-K5835J0\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11416,7 +11416,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }
